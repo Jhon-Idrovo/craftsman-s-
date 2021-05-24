@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import Card from "./Card";
 
-function Carrousel({ slides }) {
+function Carousel({ slides }) {
   const [slide, setSlide] = useState(3);
   const [imagesPerSlide, setimagesPerSlide] = useState();
   useEffect(() => {
@@ -45,4 +45,4 @@ function Carrousel({ slides }) {
   );
 }
 
-export default Carrousel;
+export default Carousel;

@@ -1,25 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { CATEGORIES } from "../lib/store";
 
-const CATEGORIES = {
-  "Mouse/Desk Pads": ["Desk Pads", "Mouse Pads", "Coasters", "View All"],
-  Stands: [
-    "Desk Shelves",
-    "Monitor Stands",
-    "Laptop Stands",
-    "Headphone Stands",
-    "iPhone Docks",
-    "iPhone Stands",
-    "View All",
-  ],
-};
 function NavBar() {
   const [section, setSection] = useState("Mouse/Desk Pads");
   const router = useRouter();
 
   return (
-    <nav className="nav-bar">
+    <nav className="nav-bar z-50">
       <div className="nav-menu">
         <input type="checkbox" name="" id="menu-check" />
         <div className="hamburger"></div>

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import Card from "../components/Card";
-import Carrousel from "../components/Carrousel";
+import Carousel from "../components/Carousel";
 
 const slidesTest = [
   {
@@ -59,17 +59,15 @@ export default function Home() {
       <main>
         <section>
           <div className="img-section-1 flex flex-col items-center justify-center text-white">
-            <h1 className="text-5xl font-semibold text-center">
-              The Desk System You Deserve{" "}
-            </h1>
+            <h1 className="landing-title">The Desk System You Deserve </h1>
             <p className="mt-4">Available in Walnut or Maple</p>
             <Link href="/">
               <a className="CTA mt-4">SEE MORE</a>
             </Link>
           </div>
           <div className="flex flex-col items-center justify-center mt-12">
-            <h2 className="text-5xl font-semibold">Design Inspires</h2>
-            <p className="mt-4">
+            <h2 className="landing-title">Design Inspires</h2>
+            <p className="mt-4 text-center">
               Build your dream workspace, so you can get your best work done
             </p>
             <Link href="/">
@@ -86,7 +84,7 @@ export default function Home() {
             <h4>Desk Pads</h4>
             <p className="CTA mt-2 table mx-auto">SEE MORE</p>
           </div>
-          <div className="mt-12">
+          <div className="">
             <img
               src="https://grovemade.imgix.net/https%3A%2F%2Fsiteleaf.grovemade.com%2Fuploads%2Ftall-laptop-stand-walnut-galB-C1.jpg?auto=format&ixlib=python-1.1.2&w=900&s=55cc515785b01d6e3b05b26389fa3c7d"
               alt=""
@@ -97,22 +95,45 @@ export default function Home() {
         </section>
         <section className="mt-12 mb-4">
           <div className="flex flex-col items-center justify-center">
-            <h3 className="text-5xl font-semibold">Selected Products</h3>
-            <p className="mt-4">See Our Costumers' Most Loved Products</p>
+            <h3 className="landing-title">Selected Products</h3>
+            <p className="my-4">See Our Costumers' Most Loved Products</p>
           </div>
-          <Carrousel slides={slidesTest} />
+          <Carousel slides={slidesTest} />
         </section>
 
         <section className="mt-12">
-          <div className="img-section-2 flex flex-col justify-center items-center text-white">
-            <h3 className="text-5xl font-semibold text-center">
-              Working From Home
-            </h3>
-            <p className="mt-4">
+          <div className="img-section-2 flex flex-col justify-center items-center text-white p-4">
+            <h3 className="landing-title">Working From Home</h3>
+            <p className="mt-4 text-center">
               Now working from home can be a luxury experience
             </p>
             <button className="CTA mt-4 ">SEE MORE</button>
           </div>
+        </section>
+        <section className="flex flex-col justify-center items-center mt-12">
+          <h1 className="landing-title">Made The Good Way</h1>
+          <p className="mt-4 text-center mx-12">
+            Our signature craftsmanship has been honed over a decade of
+            manufacturing innovation here in Portland, Oregon. We combine the
+            skills of our small in-house team with the collective strength of
+            collaborators throughout the US to deliver quality products worth
+            investing in.
+          </p>
+          <video className="mt-4" controls>
+            <source src="https://i.vimeocdn.com/video/932487191_640" />
+            Your browser does not support the video
+          </video>
+        </section>
+        <section className="flex flex-col justify-center items-center mt-12">
+          <h1 className="text-5xl font-semibold text-center">
+            Working For The Meaning
+          </h1>
+          <p className="text-center mt-4 mx-12">
+            We're here because we believe that your work deserves the best. A
+            team that loves working together is the magic that makes it all
+            happen.
+          </p>
+          <button className="CTA mt-4">KNOW OUR STORY</button>
         </section>
       </main>
     </>

@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import "../styles/global.css";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }) {
 
       <NavBar />
       <Component {...pageProps} />
+      <Footer />
     </>
   );
 }
