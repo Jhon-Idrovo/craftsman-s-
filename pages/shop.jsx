@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ShopFilter from "../components/ShopFilter";
 import { CATEGORIES } from "../lib/store";
+import Menu from "../components/Menu";
+
 function Shop() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -22,6 +24,12 @@ function Shop() {
           onChange={() => setIsFilterOpen((prev) => !prev)}
         />
         <div className="filter-expand-icon"></div>
+      </div>
+      <div
+        className="menu-toggler"
+        style={{ maxHeight: isFilterOpen ? "100vh" : 0 }}
+      >
+        <Menu></Menu>
       </div>
     </main>
   );

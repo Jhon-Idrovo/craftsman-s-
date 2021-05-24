@@ -81,19 +81,19 @@ nav .logo {
   transform: rotate(90deg);
 }
 
-#menu-check:checked ~ .menu-container {
-  max-height: 100vh;
-}
 /* menu list */
 .menu-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(min-content, 1fr));
   grid-template-areas: "menu options";
   width: 100vw;
-  max-height: 0;
+
   overflow: hidden;
 
-  @apply absolute top-10 -left-8 transition-all bg-base;
+  @apply transition-all bg-base;
+}
+.menu-toggler {
+  @apply transition-all overflow-y-hidden;
 }
 
 .menu-item {

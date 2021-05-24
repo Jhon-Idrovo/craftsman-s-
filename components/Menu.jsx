@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { CATEGORIES } from "../lib/store";
 
-const useMenu = () => {
+import Link from "next/link";
+
+import { CATEGORIES } from "../lib/store";
+function Menu({ children }) {
   const [section, setSection] = useState("Mouse/Desk Pads");
-  const Menu = (
+
+  return (
     <div className="menu-container">
       <ul className="nav-list">
         <li>
@@ -22,21 +25,7 @@ const useMenu = () => {
             })}
           </ul>
         </li>
-        <li>
-          <Link href="/about">
-            <a className="menu-item">About</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/journal">
-            <a className="menu-item">Journal</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/Cart">
-            <a className="menu-item">Cart</a>
-          </Link>
-        </li>
+        {children}
       </ul>
       <ul className="nav-options">
         {CATEGORIES[section].map((option) => {
@@ -45,7 +34,6 @@ const useMenu = () => {
       </ul>
     </div>
   );
-  return { selection, menu };
-};
+}
 
-export default useMenu;
+export default Menu;

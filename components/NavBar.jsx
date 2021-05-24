@@ -1,35 +1,28 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CATEGORIES } from "../lib/store";
+import Menu from "../components/Menu";
 
 function NavBar() {
-  const [section, setSection] = useState("Mouse/Desk Pads");
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   return (
     <nav className="nav-bar z-50">
       <div className="nav-menu">
-        <input type="checkbox" name="" id="menu-check" />
+        <input
+          type="checkbox"
+          name=""
+          id="menu-check"
+          value={isOpen}
+          onChange={() => setIsOpen((prev) => !prev)}
+        />
         <div className="hamburger"></div>
-        <div className="menu-container">
-          <ul className="nav-list">
-            <li>
-              <label className="menu-item ">Shop</label>
-
-              <ul className="nav-sublist">
-                {Object.keys(CATEGORIES).map((key) => {
-                  return (
-                    <li className="menu-item" onClick={() => setSection(key)}>
-                      {key}{" "}
-                      {key === section ? (
-                        <i className="fas fa-arrow-circle-right"></i>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
+        <div
+          className="absolute top-10 -left-8 menu-toggler"
+          style={{ maxHeight: isOpen ? "100vh" : 0 }}
+        >
+          <Menu>
             <li>
               <Link href="/about">
                 <a className="menu-item">About</a>
@@ -45,12 +38,7 @@ function NavBar() {
                 <a className="menu-item">Cart</a>
               </Link>
             </li>
-          </ul>
-          <ul className="nav-options">
-            {CATEGORIES[section].map((option) => {
-              return <li className="menu-item">{option}</li>;
-            })}
-          </ul>
+          </Menu>
         </div>
       </div>
       <Link href="/">
