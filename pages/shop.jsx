@@ -1,10 +1,7 @@
 import { useState } from "react";
-import ShopFilter from "../components/ShopFilter";
 import { CATEGORIES } from "../lib/store";
-import Menu from "../components/Menu";
-
 function Shop() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [section, setSection] = useState("Mouse/Desk Pads");
 
   return (
     <main>
@@ -16,20 +13,28 @@ function Shop() {
         <label htmlFor="filter-check" className="font-semibold">
           FILTER
         </label>
-        <input
-          type="checkbox"
-          name="filter"
-          id="filter-check"
-          value={isFilterOpen}
-          onChange={() => setIsFilterOpen((prev) => !prev)}
-        />
+        <input type="checkbox" name="filter" id="filter-check" />
         <div className="filter-expand-icon"></div>
-      </div>
-      <div
-        className="menu-toggler"
-        style={{ maxHeight: isFilterOpen ? "100vh" : 0 }}
-      >
-        <Menu></Menu>
+        <div className="filter-menu-container">
+          <ul className="nav-sublist filter-sublist">
+            {Object.keys(CATEGORIES).map((key) => {
+              return (
+                <li className="menu-item" onClick={() => setSection(key)}>
+                  {key}{" "}
+                  {key === section ? (
+                    <i className="fas fa-arrow-circle-right"></i>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+
+          <ul className="nav-options">
+            {CATEGORIES[section].map((option) => {
+              return <li className="menu-item">{option}</li>;
+            })}
+          </ul>
+        </div>
       </div>
     </main>
   );
