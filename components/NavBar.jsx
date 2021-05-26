@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CATEGORIES } from "../lib/store";
+
+import { useCollections } from "../shopify/hooks";
 
 function NavBar() {
   const [section, setSection] = useState("Mouse/Desk Pads");
   const router = useRouter();
-
+  const {
+    isLoadingCollections,
+    isErrorCollections,
+    errorCollections,
+    collections,
+  } = useCollections();
   return (
     <nav className="nav-bar z-50">
       <div className="nav-menu">
@@ -18,16 +24,21 @@ function NavBar() {
               <label className="menu-item ">Shop</label>
 
               <ul className="nav-sublist">
-                {Object.keys(CATEGORIES).map((key) => {
-                  return (
-                    <li className="menu-item" onClick={() => setSection(key)}>
-                      {key}{" "}
-                      {key === section ? (
-                        <i className="fas fa-arrow-circle-right"></i>
-                      ) : null}
-                    </li>
-                  );
-                })}
+                {isLoadingCollections
+                  ? null
+                  : Object.keys(collections).map((key) => {
+                      return (
+                        <li
+                          className="menu-item"
+                          onClick={() => setSection(key)}
+                        >
+                          {key}{" "}
+                          {key === section ? (
+                            <i className="fas fa-arrow-circle-right"></i>
+                          ) : null}
+                        </li>
+                      );
+                    })}
               </ul>
             </li>
             <li>
@@ -47,9 +58,11 @@ function NavBar() {
             </li>
           </ul>
           <ul className="nav-options">
-            {CATEGORIES[section].map((option) => {
-              return <li className="menu-item">{option}</li>;
-            })}
+            {isLoadingCollections
+              ? null
+              : collections[section].map((option) => {
+                  return <li className="menu-item">{option}</li>;
+                })}
           </ul>
         </div>
       </div>

@@ -1,9 +1,9 @@
-function Card({ url, description, price }) {
+function Card({ imgSrc, title, price }) {
   return (
     <div className=" m-4 flex flex-col items-center justify-between bg-base ">
-      <img src={url} alt={description} className="carrousel-img" />
+      <img src={imgSrc} alt={title} className="carrousel-img" />
       <div>
-        <h3 className="text-lg">{description}</h3>
+        <h3 className="text-lg">{title}</h3>
         <p className="text-sm">${price}</p>
       </div>
     </div>
