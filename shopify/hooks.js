@@ -1,55 +1,51 @@
-import { client } from "./shopify";
-import { useQuery } from "react-query";
-
+import { gql, useQuery } from "@apollo/client";
+//the output should be on the form {Main-collection:[sub-collection1, sub-collection2]}
 export function useCollections() {
-  const fetchCollections = async () => {
-    let collections = await client.collection
-      .fetchAll()
-      .then((collections) => collections);
-    console.log(collections);
-    let parsedCollections = {};
-    collections.map((collection) => {
-      if (collection.title.startsWith("Main")) {
-        parsedCollections[collection.title.slice(5)] = [];
+  const mainCollections = gql`
+    query {
+      collections(first: 100) {
+        edges {
+          node {
+            title
+          }
+        }
+      }
+    }
+  `;
+  const {
+    loading: isLoadingCollections,
+    error: errorCollections,
+    data,
+  } = useQuery(mainCollections);
+
+  const parsedCollections = () => {
+    if (isLoadingCollections | errorCollections) return {};
+    console.log(data);
+    let collections = {};
+    data.collections.edges.map(({ node }) => {
+      const [prefix, title] = node.title.split("-");
+      if (prefix === "Main") {
+        collections[title] = [];
       } else {
-        const [parentCollectionTitle, childCollectionTitle] =
-          collection.title.split("-");
-        parsedCollections[parentCollectionTitle].push(childCollectionTitle);
+        collections[prefix].push(title);
       }
     });
-    console.log(parsedCollections);
-    return parsedCollections;
+    console.log(collections);
+    return collections;
   };
-  const {
-    isLoading: isLoadingCollections,
-    isError: isErrorCollections,
-    errorCollections,
-    data: collections,
-  } = useQuery("collections", fetchCollections);
+
   return {
     isLoadingCollections,
-    isErrorCollections,
     errorCollections,
-    collections,
+    collections: parsedCollections(),
   };
 }
 
-export function useProducts() {
-  const fetchProducts = () =>
-    client.product.fetchAll().then((products) => {
-      console.log(products);
-      return products;
-    });
-  const {
-    isLoading: isLoadingProducts,
-    isError: isErrorProducts,
-    errorProducts,
-    data: products,
-  } = useQuery("products", fetchProducts);
+export function useProducts(parentCollection, childCollection) {
   return {
-    isLoadingProducts,
-    isErrorProducts,
-    errorProducts,
-    products,
+    // isLoadingProducts,
+    // isErrorProducts,
+    // errorProducts,
+    // products,
   };
 }

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useCollections } from "../../shopify/hooks";
+import { useCollections, useProducts } from "../../shopify/hooks";
 function Store() {
   const router = useRouter();
 
@@ -11,7 +11,9 @@ function Store() {
   const [section, setSection] = useState("Mouse/Desk Pads");
   const { isLoadingCollections, collections } = useCollections();
   const [queryProducts, setQueryProducts] = useState("");
-
+  // const {} = parentCollection
+  //   ? useProducts(parentCollection, childCollection)
+  //   : {};
   return (
     <main>
       <section className="shop-header">

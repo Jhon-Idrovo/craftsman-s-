@@ -4,13 +4,30 @@ import "../styles/global.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ApolloProvider } from "@apollo/client/react";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
-const queryClient = new QueryClient();
+const httpLink = createHttpLink({
+  uri: "https://craftsman-s.myshopify.com/api/2021-04/graphql.json",
+});
+
+const middlewareLink = setContext(() => ({
+  headers: {
+    "X-Shopify-Storefront-Access-Token": process.env.STOREFRONT_ACCESS_TOKEN,
+    Accept: "application/json",
+  },
+}));
+
+const client = new ApolloClient({
+  link: middlewareLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
+      <ApolloProvider client={client}>
         <Head>
           <meta
             name="description"
@@ -34,7 +51,7 @@ export default function App({ Component, pageProps }) {
         <NavBar />
         <Component {...pageProps} />
         <Footer />
-      </QueryClientProvider>
+      </ApolloProvider>
     </>
   );
 }

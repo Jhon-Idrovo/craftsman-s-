@@ -7,12 +7,8 @@ import { useCollections } from "../shopify/hooks";
 function NavBar() {
   const [section, setSection] = useState("Mouse/Desk Pads");
   const router = useRouter();
-  const {
-    isLoadingCollections,
-    isErrorCollections,
-    errorCollections,
-    collections,
-  } = useCollections();
+  const { isLoadingCollections, errorCollections, collections } =
+    useCollections();
   return (
     <nav className="nav-bar z-50">
       <div className="nav-menu">
