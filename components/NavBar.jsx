@@ -56,9 +56,30 @@ function NavBar() {
           <ul className="nav-options">
             {isLoadingCollections
               ? null
-              : collections[section].map((option) => {
-                  return <li className="menu-item">{option}</li>;
+              : collections[section].map((childCollection) => {
+                  return (
+                    <li
+                      className="menu-item"
+                      onClick={() =>
+                        router.push(
+                          `/shop/${encodeURIComponent(
+                            section
+                          )}/${encodeURIComponent(childCollection)}`
+                        )
+                      }
+                    >
+                      {childCollection}
+                    </li>
+                  );
                 })}
+            <li
+              className="menu-item"
+              onClick={() =>
+                router.push(`/shop/${encodeURIComponent(section)}`)
+              }
+            >
+              All
+            </li>
           </ul>
         </div>
       </div>

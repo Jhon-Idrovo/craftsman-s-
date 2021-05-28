@@ -97,7 +97,7 @@ nav .logo {
   @apply absolute top-10 -left-8 transition-all bg-base;
 }
 .filter-menu-container {
-  @apply top-6 left-0 right-0;
+  @apply top-6 left-0 right-0 border-t-2 border-b-2 border-opacity-75;
 }
 .menu-item {
   @apply flex items-center justify-between w-full cursor-pointer pl-4 hover:opacity-100 opacity-70;
@@ -190,7 +190,7 @@ li > i {
   @apply transition-all;
 }
 .filter-sublist {
-  @apply pl-0;
+  @apply pl-0 border-r-2 border-opacity-75;
 }
 .filter-expand-icon::before,
 .filter-expand-icon::after {
@@ -215,4 +215,9 @@ li > i {
 }
 #filter-check:checked ~ .filter-menu-container {
   max-height: 100vh;
+}
+/* product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }

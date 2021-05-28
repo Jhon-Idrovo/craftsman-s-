@@ -4,7 +4,8 @@ import Card from "./Card";
 import { useProducts } from "../shopify/hooks";
 
 function Carousel({ slides }) {
-  const { isLoadingProducts, isErrorProducts, products } = useProducts();
+  const { isLoadingProducts, products } = useProducts("Stands"); //this should be another collection with more meaning
+
   const [slide, setSlide] = useState(3);
   const [imagesPerSlide, setimagesPerSlide] = useState();
   useEffect(() => {
