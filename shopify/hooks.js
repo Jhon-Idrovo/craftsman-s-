@@ -42,11 +42,11 @@ export function useCollections() {
 }
 
 export function useProducts(parentCollection, childCollection) {
-  //a collection has associated only one product type with the same name
   console.log(parentCollection, childCollection);
   const filter = childCollection
     ? parentCollection + "-" + childCollection
     : `Main-${parentCollection}`;
+  console.log(filter);
   const query2 = gql`
     {
       collections(query: "title:${filter}", first: 100) {

@@ -5,6 +5,7 @@ import ShopCard from "../../components/ShopCard";
 
 function Store() {
   const router = useRouter();
+  const [menuSection, setMenuSection] = useState();
   const [parentCollection, setParentCollection] = useState();
   const [childCollection, setChildCollection] = useState();
   const [productID, setProductID] = useState();
@@ -12,10 +13,10 @@ function Store() {
   useEffect(() => {
     const [parent, child, product] = router.query.params || []; //next.js runs this script twice, one without the params and one with them
     console.log(parent, child, product);
-    setParentCollection(decodeURIComponent(parent));
-    setChildCollection(decodeURIComponent(child));
+    setParentCollection(parent ? decodeURIComponent(parent) : undefined);
+    setChildCollection(child ? decodeURIComponent(child) : undefined);
     setProductID(product);
-  });
+  }, []);
 
   const { isLoadingCollections, collections } = useCollections();
   const { isLoadingProducts, products } = useProducts(
@@ -43,10 +44,12 @@ function Store() {
                     return (
                       <li
                         className="menu-item"
-                        onClick={() => setParentCollection(key)}
+                        onClick={() =>
+                          setMenuSection(key) & setChildCollection(undefined)
+                        }
                       >
                         {key}{" "}
-                        {key === parentCollection ? (
+                        {key === menuSection ? (
                           <i className="fas fa-arrow-circle-right"></i>
                         ) : null}
                       </li>
@@ -57,26 +60,45 @@ function Store() {
             <ul className="nav-options">
               {isLoadingCollections
                 ? null
-                : parentCollection
-                ? collections[parentCollection].map((option) => {
-                    return <li className="menu-item">{option}</li>;
+                : menuSection
+                ? collections[menuSection].map((option) => {
+                    return (
+                      <li
+                        className="menu-item"
+                        onClick={() => {
+                          setParentCollection(menuSection);
+                          setChildCollection(option);
+                        }}
+                      >
+                        {option}
+                      </li>
+                    );
                   })
                 : null}
+              <li
+                className="menu-item"
+                onClick={() => setParentCollection(menuSection)}
+              >
+                All
+              </li>
             </ul>
           </div>
         </div>
       </section>
-      <section className="product-grid">
-        {isLoadingProducts
-          ? null
-          : products.map((product) => (
-              <ShopCard
-                imgSrc={product.images[0].src}
-                title={product.title}
-                price={product.variants[0].price}
-              />
-            ))}
-      </section>
+      {!productID ? (
+        <section className="product-grid">
+          {isLoadingProducts
+            ? null
+            : products.map((product) => (
+                <ShopCard
+                  imgSrc={product.images[0].src}
+                  title={product.title}
+                  price={product.variants[0].price}
+                  setProduct={setProductID}
+                />
+              ))}
+        </section>
+      ) : null}
     </main>
   );
 }
