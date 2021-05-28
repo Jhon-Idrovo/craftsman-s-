@@ -1,8 +1,8 @@
-function ShopCard({ imgSrc, title, price, setProduct }) {
+function ShopCard({ imgSrc, title, price, setProduct, handle }) {
   return (
     <div
       className=" m-4 flex flex-col items-center justify-between cursor-pointer border-2 border-primary bg-primary hover:border-txt-base "
-      onClick={() => setProduct(title)}
+      onClick={() => setProduct(handle)}
     >
       <img src={imgSrc} alt={title} className="carrousel-img mt-4" />
       <div>

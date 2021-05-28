@@ -63,7 +63,7 @@ export function useProducts(parentCollection, childCollection) {
                       }
                     }
                   }
-                  id
+                  handle
                   description
                   availableForSale
                   variants(first: 1) {
@@ -105,6 +105,7 @@ export function useProducts(parentCollection, childCollection) {
       product["variants"] = [
         { price: edge.node.variants.edges[0].node.priceV2.amount },
       ];
+      product["handle"] = edge.node.handle;
       products.push(product);
     });
     console.log(products);
@@ -115,5 +116,66 @@ export function useProducts(parentCollection, childCollection) {
     isLoadingProducts,
     errorProducts,
     products: parsedProducts(),
+  };
+}
+
+export function useProduct(productHandle) {
+  const query = gql`
+  {
+    productByHandle(handle: "${productHandle}") {
+      description
+      images(first: 10) {
+        edges {
+          node {
+            originalSrc
+          }
+        }
+      }
+      title
+      variants(first: 10) {
+        edges {
+          node {
+            priceV2 {
+              amount
+              currencyCode
+            }
+            title
+            availableForSale
+          }
+        }
+      }
+    }
+  }
+  
+  `;
+  const { loading: isLoadingProduct, data } = useQuery(query);
+  const parseProduct = () => {
+    if (!data) return {};
+    console.log(data);
+    const fetchedProd = data.productByHandle;
+    let product = {};
+    //format = {description:'', title:'',
+    // images:['url'],
+    //variants:[{price:,title:,available:true}]}
+    product["description"] = fetchedProd.description;
+    product["title"] = fetchedProd.title;
+
+    product["images"] = fetchedProd.images.edges.map(
+      (edge) => edge.node.originalSrc
+    );
+    product["variants"] = fetchedProd.variants.edges.map((edge) => {
+      return {
+        price: edge.node.priceV2.amount,
+        title: edge.node.title,
+        available: edge.node.availableForSale,
+      };
+    });
+    console.log(product);
+    return product;
+  };
+
+  return {
+    isLoadingProduct,
+    product: parseProduct(),
   };
 }

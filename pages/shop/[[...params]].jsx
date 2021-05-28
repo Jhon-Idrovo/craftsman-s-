@@ -1,21 +1,22 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useCollections, useProducts } from "../../shopify/hooks";
+import { useCollections, useProducts, useProduct } from "../../shopify/hooks";
 import ShopCard from "../../components/ShopCard";
+import ProductDetail from "../../components/ProductDetail";
 
 function Store() {
   const router = useRouter();
   const [menuSection, setMenuSection] = useState();
   const [parentCollection, setParentCollection] = useState();
   const [childCollection, setChildCollection] = useState();
-  const [productID, setProductID] = useState();
+  const [productHandle, setProductHandle] = useState();
 
   useEffect(() => {
     const [parent, child, product] = router.query.params || []; //next.js runs this script twice, one without the params and one with them
     console.log(parent, child, product);
     setParentCollection(parent ? decodeURIComponent(parent) : undefined);
     setChildCollection(child ? decodeURIComponent(child) : undefined);
-    setProductID(product);
+    setProductHandle(product);
   }, []);
 
   const { isLoadingCollections, collections } = useCollections();
@@ -85,7 +86,9 @@ function Store() {
           </div>
         </div>
       </section>
-      {!productID ? (
+      {productHandle ? (
+        <ProductDetail productHandle={productHandle} />
+      ) : (
         <section className="product-grid">
           {isLoadingProducts
             ? null
@@ -94,11 +97,12 @@ function Store() {
                   imgSrc={product.images[0].src}
                   title={product.title}
                   price={product.variants[0].price}
-                  setProduct={setProductID}
+                  setProduct={setProductHandle}
+                  handle={product.handle}
                 />
               ))}
         </section>
-      ) : null}
+      )}
     </main>
   );
 }
