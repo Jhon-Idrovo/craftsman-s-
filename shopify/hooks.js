@@ -47,6 +47,7 @@ export function useProducts(parentCollection, childCollection) {
     ? parentCollection + "-" + childCollection
     : `Main-${parentCollection}`;
   console.log(filter);
+
   const query2 = gql`
     {
       collections(query: "title:${filter}", first: 100) {
@@ -119,10 +120,97 @@ export function useProducts(parentCollection, childCollection) {
   };
 }
 
+export function useProductsV2(parentCollection, childCollection) {
+  console.log(parentCollection, childCollection);
+  const filter = childCollection
+    ? parentCollection + "-" + childCollection
+    : `Main-${parentCollection}`;
+  console.log(filter);
+  const query = gql`
+  {
+    collections(query: "title:${filter}", first: 1) {
+      edges {
+        node {
+          products(first: 250) {
+            edges {
+              node {
+                images(first: 1) {
+                  edges {
+                    node {
+                      originalSrc
+                    }
+                  }
+                }
+                variants(first: 10) {
+                  edges {
+                    node {
+                      priceV2 {
+                        amount
+                        currencyCode
+                      }
+                      availableForSale
+                      id
+                      title
+                      quantityAvailable
+                    }
+                  }
+                }
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }  
+  `;
+
+  const {
+    loading: isLoadingProducts,
+    data,
+    error: errorProducts,
+  } = useQuery(query);
+
+  const parsedProducts = () => {
+    if (!data) return [];
+    //products = [{images:[url], tittle:'',
+    //variants:[{price:,title:,available:true, id:''}]}
+    console.log(data);
+    let fetchedProducts = data.collections.edges[0].node.products;
+    let products = [];
+    fetchedProducts.edges.map((edge) => {
+      let product = {};
+      product["title"] = edge.node.title;
+      product["images"] = edge.node.images.edges.map(
+        (edge) => edge.node.originalSrc
+      );
+      product["variants"] = edge.node.variants.edges.map((edge) => {
+        return {
+          price: edge.node.priceV2.amount,
+          title: edge.node.title,
+          available: edge.node.availableForSale,
+          id: edge.node.id,
+          quantityAvailable: edge.node.quantityAvailable,
+        };
+      });
+      products.push(product);
+    });
+    console.log(products);
+    return products;
+  };
+
+  return {
+    isLoadingProducts,
+    errorProducts,
+    products: parsedProducts(),
+  };
+}
+
 export function useProduct(productHandle) {
   const query = gql`
   {
     productByHandle(handle: "${productHandle}") {
+      id
       description
       images(first: 10) {
         edges {
@@ -141,6 +229,7 @@ export function useProduct(productHandle) {
             }
             title
             availableForSale
+            id
           }
         }
       }
@@ -156,7 +245,7 @@ export function useProduct(productHandle) {
     let product = {};
     //format = {description:'', title:'',
     // images:['url'],
-    //variants:[{price:,title:,available:true}]}
+    //variants:[{price:,title:,available:true, id:''}]}
     product["description"] = fetchedProd.description;
     product["title"] = fetchedProd.title;
 
@@ -168,8 +257,10 @@ export function useProduct(productHandle) {
         price: edge.node.priceV2.amount,
         title: edge.node.title,
         available: edge.node.availableForSale,
+        id: edge.node.id,
       };
     });
+    product["id"] = fetchedProd.id; //this is not the id for the variant
     console.log(product);
     return product;
   };
