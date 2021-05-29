@@ -1,5 +1,5 @@
 //import Carousel from "../components/Carousel";
-import { useCollections, useProductsV2, useProduct } from "../shopify/hooks";
+import { useCollections, useProducts, useProduct } from "../shopify/hooks";
 import ProductDetail from "../components/ProductDetail";
 import Cart from "../components/Cart";
 import React, { useState, useEffect } from "react";
@@ -17,8 +17,8 @@ import {
 // import CustomerAuthWithMutation from './components/CustomerAuth';
 
 function Tests() {
-  const { isLoadingProducts, products } = useProductsV2("Stands");
-  //const { isLoadingProduct, product } = useProduct("wool-felt-desk-pad");
+  const { isLoadingProducts, products } = useProducts("Stands");
+  //products = [{images:[{src:'url'}], tittle:'', variants: [{price:}], handle:''}]
 
   const [isCartOpen, setCartOpen] = useState(false);
   const [checkout, setCheckout] = useState({ lineItems: { edges: [] } });
@@ -120,10 +120,13 @@ function Tests() {
         )}
       </header>
       <div className="Product-wrapper">
-        <ProductDetail
-          productHandle={product.handle}
-          addVariantToCart={addVariantToCart}
-        />
+        {!isLoadingProducts ? console.log(products) : null}
+        {isLoadingProducts ? null : products ? (
+          <ProductDetail
+            productHandle={products[0].handle}
+            addVariantToCart={addVariantToCart}
+          />
+        ) : null}
       </div>
       <Cart
         removeLineItemInCart={removeLineItemInCart}

@@ -1,8 +1,17 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useCollections, useProducts, useProduct } from "../../shopify/hooks";
 import ShopCard from "../../components/ShopCard";
 import ProductDetail from "../../components/ProductDetail";
+
+import { useMutation } from "@apollo/client";
+import {
+  useCheckoutEffect,
+  createCheckout,
+  checkoutLineItemsAdd,
+} from "../../shopify/checkout";
+
+import { Context } from "../../shopify/contex";
 
 function Store() {
   const router = useRouter();
@@ -24,6 +33,58 @@ function Store() {
     parentCollection ? parentCollection : "Mouse/Desk Pads",
     childCollection
   );
+  //------------------------------------------------
+  const { checkout, setCheckout } = useContext(Context);
+
+  const [
+    createCheckoutMutation,
+    {
+      data: createCheckoutData,
+      loading: createCheckoutLoading,
+      error: createCheckoutError,
+    },
+  ] = useMutation(createCheckout);
+
+  const [
+    lineItemAddMutation,
+    {
+      data: lineItemAddData,
+      loading: lineItemAddLoading,
+      error: lineItemAddError,
+    },
+  ] = useMutation(checkoutLineItemsAdd);
+
+  useEffect(() => {
+    const variables = { input: {} };
+    createCheckoutMutation({ variables }).then(
+      (res) => {
+        console.log(res);
+      },
+      (err) => {
+        console.log("create checkout error", err);
+      }
+    );
+  }, []);
+
+  useCheckoutEffect(createCheckoutData, "checkoutCreate", setCheckout);
+  useCheckoutEffect(lineItemAddData, "checkoutLineItemsAdd", setCheckout);
+
+  const handleCartClose = () => {
+    setCartOpen(false);
+  };
+
+  const addVariantToCart = (variantId, quantity) => {
+    const variables = {
+      checkoutId: checkout.id,
+      lineItems: [{ variantId, quantity: parseInt(quantity, 10) }],
+    };
+    // TODO replace for each mutation in the checkout thingy. can we export them from there???
+    // create your own custom hook???
+
+    lineItemAddMutation({ variables }).then((res) => {
+      //setCartOpen(true);
+    });
+  };
 
   return (
     <main>
@@ -87,7 +148,10 @@ function Store() {
         </div>
       </section>
       {productHandle ? (
-        <ProductDetail productHandle={productHandle} />
+        <ProductDetail
+          productHandle={productHandle}
+          addVariantToCart={addVariantToCart}
+        />
       ) : (
         <section className="product-grid">
           {isLoadingProducts

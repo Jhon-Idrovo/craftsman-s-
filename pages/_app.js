@@ -1,3 +1,5 @@
+import { useState, useMemo } from "react";
+
 import Head from "next/head";
 
 import "../styles/global.css";
@@ -7,6 +9,8 @@ import Footer from "../components/Footer";
 import { ApolloProvider } from "@apollo/client/react";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+
+import { Context } from "../shopify/contex";
 
 const httpLink = createHttpLink({
   uri: "https://craftsman-s.myshopify.com/api/2021-04/graphql.json",
@@ -25,6 +29,12 @@ const client = new ApolloClient({
 });
 
 export default function App({ Component, pageProps }) {
+  const [checkout, setCheckout] = useState(false);
+
+  const memoizedValue = useMemo(
+    () => ({ checkout, setCheckout }),
+    [checkout, setCheckout]
+  );
   return (
     <>
       <ApolloProvider client={client}>
@@ -47,9 +57,10 @@ export default function App({ Component, pageProps }) {
             referrerPolicy="no-referrer"
           />
         </Head>
-
-        <NavBar />
-        <Component {...pageProps} />
+        <Context.Provider value={memoizedValue}>
+          <NavBar />
+          <Component {...pageProps} />
+        </Context.Provider>
         <Footer />
       </ApolloProvider>
     </>

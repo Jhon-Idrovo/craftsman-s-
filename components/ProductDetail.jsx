@@ -55,7 +55,7 @@ function ProductDetail({ productHandle, addVariantToCart }) {
 
           <button
             className="CTA ml-2"
-            onClick={() => addVariantToCart(product.id, quantity)}
+            onClick={() => addVariantToCart(product.variants[0].id, quantity)}
           >
             ADD TO CART
           </button>

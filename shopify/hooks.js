@@ -95,7 +95,7 @@ export function useProducts(parentCollection, childCollection) {
 
   const parsedProducts = () => {
     if (!data) return [];
-    //products = [{images:[{src:'url'}], tittle:'', variants: [{price:}]}]
+    //products = [{images:[{src:'url'}], tittle:'', variants: [{price:}], handle:''}]
     console.log(data);
     let fetchedProducts = data.collections.edges[0].node.products;
     let products = [];
