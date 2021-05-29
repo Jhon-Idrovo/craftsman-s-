@@ -4,59 +4,12 @@ import { useState, useContext } from "react";
 
 import { useCollections } from "../shopify/hooks";
 
-import Cart from "./Cart";
-
-import { Context } from "../shopify/contex";
-
-import { useMutation } from "@apollo/client";
-import {
-  checkoutLineItemsUpdate,
-  checkoutLineItemsRemove,
-  useCheckoutEffect,
-} from "../shopify/checkout";
-
 function NavBar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [section, setSection] = useState("Mouse/Desk Pads");
   const router = useRouter();
   const { isLoadingCollections, errorCollections, collections } =
     useCollections();
-
-  const { checkout, setCheckout } = useContext(Context);
-
-  const [
-    lineItemUpdateMutation,
-    {
-      data: lineItemUpdateData,
-      loading: lineItemUpdateLoading,
-      error: lineItemUpdateError,
-    },
-  ] = useMutation(checkoutLineItemsUpdate);
-
-  const [
-    lineItemRemoveMutation,
-    {
-      data: lineItemRemoveData,
-      loading: lineItemRemoveLoading,
-      error: lineItemRemoveError,
-    },
-  ] = useMutation(checkoutLineItemsRemove);
-
-  useCheckoutEffect(lineItemUpdateData, "checkoutLineItemsUpdate", setCheckout);
-  useCheckoutEffect(lineItemRemoveData, "checkoutLineItemsRemove", setCheckout);
-
-  const updateLineItemInCart = (lineItemId, quantity) => {
-    const variables = {
-      checkoutId: checkout.id,
-      lineItems: [{ id: lineItemId, quantity: parseInt(quantity, 10) }],
-    };
-    lineItemUpdateMutation({ variables });
-  };
-
-  const removeLineItemInCart = (lineItemId) => {
-    const variables = { checkoutId: checkout.id, lineItemIds: [lineItemId] };
-    lineItemRemoveMutation({ variables });
-  };
 
   return (
     <nav className="nav-bar z-50">
@@ -135,7 +88,7 @@ function NavBar() {
       <Link href="/">
         <a className="logo">GROVE</a>
       </Link>
-      <Cart
+      {/* <Cart
         removeLineItemInCart={removeLineItemInCart}
         updateLineItemInCart={updateLineItemInCart}
         checkout={checkout}
@@ -144,7 +97,7 @@ function NavBar() {
           setIsCartOpen(false);
         }}
         customerAccessToken={""}
-      />
+      /> */}
     </nav>
   );
 }
