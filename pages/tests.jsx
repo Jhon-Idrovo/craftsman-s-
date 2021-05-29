@@ -20,9 +20,9 @@ function Tests() {
   const { isLoadingProducts, products } = useProducts("Stands");
   //products = [{images:[{src:'url'}], tittle:'', variants: [{price:}], handle:''}]
 
-  const [isCartOpen, setCartOpen] = useState(false);
   const [checkout, setCheckout] = useState({ lineItems: { edges: [] } });
 
+  //SHOP
   const [
     createCheckoutMutation,
     {
@@ -40,6 +40,37 @@ function Tests() {
       error: lineItemAddError,
     },
   ] = useMutation(checkoutLineItemsAdd);
+
+  useEffect(() => {
+    const variables = { input: {} };
+    createCheckoutMutation({ variables }).then(
+      (res) => {
+        console.log(res);
+      },
+      (err) => {
+        console.log("create checkout error", err);
+      }
+    );
+  }, []);
+
+  useCheckoutEffect(createCheckoutData, "checkoutCreate", setCheckout);
+  useCheckoutEffect(lineItemAddData, "checkoutLineItemsAdd", setCheckout);
+
+  const addVariantToCart = (variantId, quantity) => {
+    const variables = {
+      checkoutId: checkout.id,
+      lineItems: [{ variantId, quantity: parseInt(quantity, 10) }],
+    };
+    // TODO replace for each mutation in the checkout thingy. can we export them from there???
+    // create your own custom hook???
+
+    lineItemAddMutation({ variables }).then((res) => {
+      //setCartOpen(true);
+    });
+  };
+
+  //CART
+  const [isCartOpen, setCartOpen] = useState(false);
 
   const [
     lineItemUpdateMutation,
@@ -59,37 +90,10 @@ function Tests() {
     },
   ] = useMutation(checkoutLineItemsRemove);
 
-  useEffect(() => {
-    const variables = { input: {} };
-    createCheckoutMutation({ variables }).then(
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.log("create checkout error", err);
-      }
-    );
-  }, []);
-
-  useCheckoutEffect(createCheckoutData, "checkoutCreate", setCheckout);
-  useCheckoutEffect(lineItemAddData, "checkoutLineItemsAdd", setCheckout);
   useCheckoutEffect(lineItemUpdateData, "checkoutLineItemsUpdate", setCheckout);
   useCheckoutEffect(lineItemRemoveData, "checkoutLineItemsRemove", setCheckout);
   const handleCartClose = () => {
     setCartOpen(false);
-  };
-
-  const addVariantToCart = (variantId, quantity) => {
-    const variables = {
-      checkoutId: checkout.id,
-      lineItems: [{ variantId, quantity: parseInt(quantity, 10) }],
-    };
-    // TODO replace for each mutation in the checkout thingy. can we export them from there???
-    // create your own custom hook???
-
-    lineItemAddMutation({ variables }).then((res) => {
-      setCartOpen(true);
-    });
   };
 
   const updateLineItemInCart = (lineItemId, quantity) => {

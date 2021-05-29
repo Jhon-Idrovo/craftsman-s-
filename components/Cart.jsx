@@ -17,7 +17,7 @@ function Cart(props) {
   });
 
   return (
-    <div className={`Cart ${props.isCartOpen ? "Cart--open" : ""}`}>
+    <div className={`Cart ${props.isCartOpen ? "Cart--open z-50" : ""}`}>
       <header className="Cart__header">
         <h2>Your cart</h2>
         <button onClick={props.handleCartClose} className="Cart__close">

@@ -38,7 +38,7 @@ function ProductDetail({ productHandle, addVariantToCart }) {
             +
           </button>
           <input
-            className="w-8 border-t-2 border-b-2  "
+            className="w-8 border-t-2 border-b-2 text-center "
             type="number"
             name="quantity"
             id="quantity"

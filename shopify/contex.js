@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const Context = createContext({ lineItems: { edges: [] } });
+export const Context = createContext(null);

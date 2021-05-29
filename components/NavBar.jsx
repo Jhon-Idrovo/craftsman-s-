@@ -3,6 +3,16 @@ import { useRouter } from "next/router";
 import { useState, useContext } from "react";
 
 import { useCollections } from "../shopify/hooks";
+//------------
+import { Context } from "../shopify/contex";
+import {
+  useCheckoutEffect,
+  checkoutLineItemsUpdate,
+  checkoutLineItemsRemove,
+} from "../shopify/checkout";
+
+import { useMutation } from "@apollo/client";
+import Cart from "./Cart";
 
 function NavBar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -11,8 +21,45 @@ function NavBar() {
   const { isLoadingCollections, errorCollections, collections } =
     useCollections();
 
+  //---------------------------
+  const { checkout, setCheckout } = useContext(Context);
+
+  const [
+    lineItemUpdateMutation,
+    {
+      data: lineItemUpdateData,
+      loading: lineItemUpdateLoading,
+      error: lineItemUpdateError,
+    },
+  ] = useMutation(checkoutLineItemsUpdate);
+
+  const [
+    lineItemRemoveMutation,
+    {
+      data: lineItemRemoveData,
+      loading: lineItemRemoveLoading,
+      error: lineItemRemoveError,
+    },
+  ] = useMutation(checkoutLineItemsRemove);
+
+  useCheckoutEffect(lineItemUpdateData, "checkoutLineItemsUpdate", setCheckout);
+  useCheckoutEffect(lineItemRemoveData, "checkoutLineItemsRemove", setCheckout);
+
+  const updateLineItemInCart = (lineItemId, quantity) => {
+    const variables = {
+      checkoutId: checkout.id,
+      lineItems: [{ id: lineItemId, quantity: parseInt(quantity, 10) }],
+    };
+    lineItemUpdateMutation({ variables });
+  };
+
+  const removeLineItemInCart = (lineItemId) => {
+    const variables = { checkoutId: checkout.id, lineItemIds: [lineItemId] };
+    lineItemRemoveMutation({ variables });
+  };
+
   return (
-    <nav className="nav-bar z-50">
+    <nav className="nav-bar z-10">
       <div className="nav-menu">
         <input type="checkbox" name="" id="menu-check" />
         <div className="hamburger"></div>
@@ -88,7 +135,8 @@ function NavBar() {
       <Link href="/">
         <a className="logo">GROVE</a>
       </Link>
-      {/* <Cart
+      <button onClick={() => setIsCartOpen(true)}>Cart</button>
+      <Cart
         removeLineItemInCart={removeLineItemInCart}
         updateLineItemInCart={updateLineItemInCart}
         checkout={checkout}
@@ -97,7 +145,7 @@ function NavBar() {
           setIsCartOpen(false);
         }}
         customerAccessToken={""}
-      /> */}
+      />
     </nav>
   );
 }

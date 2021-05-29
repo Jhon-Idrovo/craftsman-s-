@@ -29,7 +29,7 @@ const client = new ApolloClient({
 });
 
 export default function App({ Component, pageProps }) {
-  const [checkout, setCheckout] = useState(false);
+  const [checkout, setCheckout] = useState({ lineItems: { edges: [] } });
 
   const memoizedValue = useMemo(
     () => ({ checkout, setCheckout }),
