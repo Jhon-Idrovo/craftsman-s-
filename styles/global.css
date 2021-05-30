@@ -190,18 +190,6 @@ nav .menu-item {
   @apply opacity-100;
 }
 
-/* @media only screen and (min-width: 600px) {
-  .filter-btn {
-    @apply hidden;
-  }
-  .filter-item-icon {
-    @apply hidden;
-  }
-  .filter-container {
-    @apply flex flex-col float-left;
-  }
-} */
-
 /* product grid */
 .product-grid {
   display: grid;
