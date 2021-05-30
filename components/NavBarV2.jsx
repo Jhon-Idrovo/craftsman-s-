@@ -16,6 +16,7 @@ import Cart from "./Cart";
 
 function NavBar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [section, setSection] = useState("Mouse/Desk Pads");
   const router = useRouter();
   const { isLoadingCollections, errorCollections, collections } =
@@ -57,7 +58,62 @@ function NavBar() {
     const variables = { checkoutId: checkout.id, lineItemIds: [lineItemId] };
     lineItemRemoveMutation({ variables });
   };
+  return (
+    <nav className="flex justify-between items-center relative h-12 border-b-2 border-txt-base border-opacity-50">
+      <Link href="/">
+        <a className=" font-bold text-xl ml-2">CRAFTSMAN'S</a>
+      </Link>
+      <div className="flex items-center">
+        <ul className={`nav-menu ${isMenuOpen ? "open" : null}`}>
+          <li className="nav-menu-item">
+            <Link href="/shop">
+              <a className="">Shop </a>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
+            <Link href="/newsletter">
+              <a className="">Newsletter </a>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
+            <Link href="/about">
+              <a className="w-max">Our Story </a>
+            </Link>
+          </li>
+        </ul>
 
+        <button
+          className="m-2 relative pr-4"
+          onClick={() => setIsCartOpen(true)}
+        >
+          Cart
+          <p
+            className={`absolute top-0 right-0 w-4 text-xs rounded-full bg-secondary  ${
+              checkout.lineItems.edges.length > 0 ? "" : "hidden"
+            }`}
+          >
+            {checkout.lineItems.edges.length}
+          </p>
+        </button>
+        <Cart
+          removeLineItemInCart={removeLineItemInCart}
+          updateLineItemInCart={updateLineItemInCart}
+          checkout={checkout}
+          isCartOpen={isCartOpen}
+          handleCartClose={() => {
+            setIsCartOpen(false);
+          }}
+          customerAccessToken={""}
+        />
+        <div
+          className="w-6 h-6 my-auto mr-2 overflow-hidden hamburger-cont"
+          onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
+        >
+          <div className={`hamburger ${isMenuOpen ? "active" : null}`}></div>
+        </div>
+      </div>
+    </nav>
+  );
   return (
     <nav className="nav-bar z-10">
       <div className="nav-menu">

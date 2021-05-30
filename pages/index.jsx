@@ -1,48 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 
-import Card from "../components/Card";
-import Carousel from "../components/Carousel";
-
-const slidesTest = [
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fpen-black-gridA-A1.jpg%3F_v%3D1565817973.02?auto=format&ixlib=python-1.1.2&w=300&s=ebda13595432be3088e37b00fc03bac7",
-    description: "Black Pen",
-    price: 60,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fwalnut-desk-collection-desk-pad-XL-A4.jpg%3F_v%3D1588885791.89?auto=format&ixlib=python-1.1.2&w=300&s=fe9cf0d738945b62fee658357596a65f",
-    description: "Wool Felt Desk Pad",
-    price: 60,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fwalnut-succulent-planter-tall-2020-grid-A1.jpg%3F_v%3D1606095599.68?auto=format&ixlib=python-1.1.2&w=300&s=5a59d00eff69ecfb1d4ae1f61bd3a3f7",
-    description: "Wood Planter",
-    price: 50,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fwalnut-pen-cup-2020-grid-A1.jpg%3F_v%3D1606095722.2?auto=format&ixlib=python-1.1.2&w=300&s=3a5626f5d8b3de6b6994d1c34f901083",
-    description: "Wood Pen Cup",
-    price: 50,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fpen-black-gridA-A1.jpg%3F_v%3D1565817973.02?auto=format&ixlib=python-1.1.2&w=300&s=ebda13595432be3088e37b00fc03bac7",
-    description: "Walnut Magsafe Stand",
-    price: 60,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Fwalnut-headphone-stand-grid-A1.jpg%3F_v%3D1561076419.35?auto=format&ixlib=python-1.1.2&w=300&s=72bb04397bc34eea82744128aef61574",
-    description: "Walnut Headphone Stand",
-    price: 60,
-  },
-  {
-    url: "https://grovemade.imgix.net/https%3A%2F%2Fgrovemade.com%2Fshop-static%2Fshop%2Fvariant%2Ftall-laptop-stand-walnut-gridA-A2.jpg%3F_v%3D1602535081.79?auto=format&ixlib=python-1.1.2&w=300&s=775bea9eb3fc10ed8e3b1f11315ec200",
-    description: "Walnut Laptop Raiser",
-    price: 60,
-  },
-];
+import CarouselWithProducts from "../components/CarouselWithProducts";
+import { useProducts } from "../shopify/hooks";
 
 export default function Home() {
   const images = [
@@ -51,6 +11,9 @@ export default function Home() {
       desc: "description",
     },
   ];
+
+  const { isLoadingProducts, products } = useProducts("Stands");
+
   return (
     <>
       <Head>
@@ -98,7 +61,9 @@ export default function Home() {
             <h3 className="landing-title">Selected Products</h3>
             <p className="my-4">See Our Costumers' Most Loved Products</p>
           </div>
-          <Carousel slides={slidesTest} />
+          {isLoadingProducts ? null : (
+            <CarouselWithProducts products={products} />
+          )}
         </section>
 
         <section className="mt-12">
