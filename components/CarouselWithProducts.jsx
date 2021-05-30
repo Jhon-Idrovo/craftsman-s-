@@ -8,6 +8,7 @@ function CarouselWithProducts({ products }) {
         imgSrc={productInfo.images[0].src}
         title={productInfo.title}
         price={productInfo.variants[0].price}
+        handle={productInfo.handle}
       />
     );
   };

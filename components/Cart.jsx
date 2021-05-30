@@ -44,7 +44,10 @@ function Cart(props) {
             <span className="pricing">$ {props.checkout.totalPrice}</span>
           </div>
         </div>
-        <button className="Cart__checkout button" onClick={openCheckout}>
+        <button
+          className="Cart__checkout button  CTA mx-auto"
+          onClick={openCheckout}
+        >
           Checkout
         </button>
       </footer>

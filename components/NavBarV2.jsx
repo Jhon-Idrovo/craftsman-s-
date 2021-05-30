@@ -61,7 +61,7 @@ function NavBar() {
   return (
     <nav className="flex justify-between items-center relative h-12 border-b-2 border-txt-base border-opacity-50">
       <Link href="/">
-        <a className=" font-bold text-xl">CRAFTSMAN'S</a>
+        <a className=" font-bold text-xl ml-2">CRAFTSMAN'S</a>
       </Link>
       <div className="flex items-center">
         <ul className={`nav-menu ${isMenuOpen ? "open" : null}`}>
@@ -82,8 +82,18 @@ function NavBar() {
           </li>
         </ul>
 
-        <button className="m-2" onClick={() => setIsCartOpen(true)}>
+        <button
+          className="m-2 relative pr-4"
+          onClick={() => setIsCartOpen(true)}
+        >
           Cart
+          <p
+            className={`absolute top-0 right-0 w-4 text-xs rounded-full bg-secondary  ${
+              checkout.lineItems.edges.length > 0 ? "" : "hidden"
+            }`}
+          >
+            {checkout.lineItems.edges.length}
+          </p>
         </button>
         <Cart
           removeLineItemInCart={removeLineItemInCart}

@@ -12,29 +12,32 @@ import {
   useCheckoutEffect,
   createCheckout,
   checkoutLineItemsAdd,
-  checkoutLineItemsUpdate,
-  checkoutLineItemsRemove,
-  checkoutCustomerAssociate,
 } from "../../shopify/checkout";
 
 function Store() {
   const router = useRouter();
-  const [menuSection, setMenuSection] = useState();
+  const [menuSection, setMenuSection] = useState("Stands");
   const [parentCollection, setParentCollection] = useState();
   const [childCollection, setChildCollection] = useState();
   const [productHandle, setProductHandle] = useState();
 
-  useEffect(() => {
-    const [parent, child, product] = router.query.params || []; //next.js runs this script twice, one without the params and one with them
-    console.log(parent, child, product);
-    setParentCollection(parent ? decodeURIComponent(parent) : undefined);
-    setChildCollection(child ? decodeURIComponent(child) : undefined);
-    setProductHandle(product);
-  }, []);
+  const [parent, child, product] = router.query.params || []; //next.js runs this script twice, one without the params and one with them
+  console.log(parent, child, product);
 
+  useEffect(() => {
+    setParentCollection(
+      parent & !product ? decodeURIComponent(parent) : undefined
+    );
+    setChildCollection(
+      child & !product ? decodeURIComponent(child) : undefined
+    );
+    setProductHandle(product);
+  }, [parent, child, product]);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { isLoadingCollections, collections } = useCollections();
   const { isLoadingProducts, products } = useProducts(
-    parentCollection ? parentCollection : "Mouse/Desk Pads",
+    parentCollection ? parentCollection : menuSection,
     childCollection
   );
   //------------------------------------------------
@@ -91,59 +94,71 @@ function Store() {
         <h1 className="landing-title">Our Designs Inspires You</h1>
       </section>
       <section>
-        <div className="filter-container">
-          <label htmlFor="filter-check" className="font-semibold">
-            FILTER
-          </label>
-          <input type="checkbox" name="filter" id="filter-check" />
-          <div className="filter-expand-icon"></div>
-          <div className="filter-menu-container">
-            <ul className="nav-sublist filter-sublist">
-              {isLoadingCollections
-                ? null
-                : Object.keys(collections).map((key) => {
-                    return (
-                      <li
-                        className="menu-item"
-                        onClick={() =>
-                          setMenuSection(key) & setChildCollection(undefined)
-                        }
-                      >
-                        {key}{" "}
-                        {key === menuSection ? (
-                          <i className="fas fa-arrow-circle-right"></i>
-                        ) : null}
-                      </li>
-                    );
-                  })}
-            </ul>
+        <button
+          className="filter-btn"
+          onClick={() => setIsFilterOpen((prev) => !prev)}
+        >
+          FILTER
+          <p
+            className={`filter-icon ${
+              isFilterOpen ? "filter-icon-open" : null
+            }`}
+          >
+            +
+          </p>
+        </button>
 
-            <ul className="nav-options">
-              {isLoadingCollections
-                ? null
-                : menuSection
-                ? collections[menuSection].map((option) => {
-                    return (
-                      <li
-                        className="menu-item"
-                        onClick={() => {
-                          setParentCollection(menuSection);
-                          setChildCollection(option);
-                        }}
-                      >
-                        {option}
-                      </li>
-                    );
-                  })
-                : null}
-              <li
-                className="menu-item"
-                onClick={() => setParentCollection(menuSection)}
-              >
-                All
-              </li>
-            </ul>
-          </div>
+        <div className={`filter-container  ${isFilterOpen ? "open" : null}`}>
+          <ul className="filter-list">
+            {isLoadingCollections
+              ? null
+              : Object.keys(collections).map((key) => {
+                  return (
+                    <li
+                      className={`filter-item ${
+                        key === menuSection ? "active" : null
+                      }`}
+                      onClick={() =>
+                        setMenuSection(key) & setChildCollection(undefined)
+                      }
+                    >
+                      {key}{" "}
+                      {key === menuSection ? (
+                        <i className="fas fa-arrow-circle-right mr-1 filter-item-icon"></i>
+                      ) : null}
+                    </li>
+                  );
+                })}
+          </ul>
+
+          <ul className="filter-options">
+            {isLoadingCollections
+              ? null
+              : menuSection
+              ? collections[menuSection].map((option) => {
+                  return (
+                    <li
+                      className="filter-item"
+                      onClick={() => {
+                        setParentCollection(menuSection);
+                        setChildCollection(option);
+                        setProductHandle(undefined);
+                      }}
+                    >
+                      {option}
+                    </li>
+                  );
+                })
+              : null}
+            <li
+              className="filter-item"
+              onClick={() =>
+                setParentCollection(menuSection) & setProductHandle(undefined)
+              }
+            >
+              All
+            </li>
+          </ul>
         </div>
       </section>
       {productHandle ? (

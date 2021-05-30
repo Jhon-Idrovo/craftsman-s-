@@ -9,7 +9,7 @@ module.exports = {
       primary: colors.blue[100],
       "txt-primary": colors.black,
       secondary: colors.blue[200],
-      "txt-secondary": colors.black,
+      "txt-secondary": colors.green[200],
       white: colors.white,
     },
     extend: {},
