@@ -8,18 +8,19 @@ function Carousel({ slides, slideMappingFn, slideWidth }) {
 
   useEffect(() => {
     console.log(parentEl.current);
+    //using a reference to get the widht of the parent element and set a listener to update on a resize event
     setimagesPerSlide(Math.floor(parentEl.current.offsetWidth / slideWidth));
     const resize = () =>
       setimagesPerSlide(Math.floor(parentEl.current.offsetWidth / slideWidth));
+    //the only element that has a resize event is the window
     window.addEventListener("resize", resize);
+    //remove the listener to avoid wasting memory
     return () => {
       window.removeEventListener("resize", resize);
     };
   }, []);
   return (
     <div className="bg-primary " id="carousel-container" ref={parentEl}>
-      {/* images have a max-width of 250px */}
-
       <div className={`grid grid-cols-${imagesPerSlide} relative grid-rows-1`}>
         {imagesPerSlide
           ? slides
