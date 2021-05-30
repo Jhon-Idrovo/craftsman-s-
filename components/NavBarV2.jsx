@@ -59,44 +59,48 @@ function NavBar() {
     lineItemRemoveMutation({ variables });
   };
   return (
-    <nav className="flex justify-between relative h-12 border-b-2 border-txt-base border-opacity-50">
+    <nav className="flex justify-between items-center relative h-12 border-b-2 border-txt-base border-opacity-50">
       <Link href="/">
         <a className=" font-bold text-xl">CRAFTSMAN'S</a>
       </Link>
-      <ul className={`nav-menu ${isMenuOpen ? "open" : null}`}>
-        <li className="nav-menu-item">
-          <Link href="/shop">
-            <a className="">Shop </a>
-          </Link>
-        </li>
-        <li className="nav-menu-item">
-          <Link href="/newsletter">
-            <a className="">Newsletter </a>
-          </Link>
-        </li>
-        <li className="nav-menu-item">
-          <Link href="/about">
-            <a className="w-max">Our Story </a>
-          </Link>
-        </li>
-      </ul>
+      <div className="flex items-center">
+        <ul className={`nav-menu ${isMenuOpen ? "open" : null}`}>
+          <li className="nav-menu-item">
+            <Link href="/shop">
+              <a className="">Shop </a>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
+            <Link href="/newsletter">
+              <a className="">Newsletter </a>
+            </Link>
+          </li>
+          <li className="nav-menu-item">
+            <Link href="/about">
+              <a className="w-max">Our Story </a>
+            </Link>
+          </li>
+        </ul>
 
-      <button onClick={() => setIsCartOpen(true)}>Cart</button>
-      <Cart
-        removeLineItemInCart={removeLineItemInCart}
-        updateLineItemInCart={updateLineItemInCart}
-        checkout={checkout}
-        isCartOpen={isCartOpen}
-        handleCartClose={() => {
-          setIsCartOpen(false);
-        }}
-        customerAccessToken={""}
-      />
-      <div
-        className="w-6 h-6 my-auto mr-2 overflow-hidden md:hidden"
-        onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
-      >
-        <div className={`hamburger ${isMenuOpen ? "active" : null}`}></div>
+        <button className="m-2" onClick={() => setIsCartOpen(true)}>
+          Cart
+        </button>
+        <Cart
+          removeLineItemInCart={removeLineItemInCart}
+          updateLineItemInCart={updateLineItemInCart}
+          checkout={checkout}
+          isCartOpen={isCartOpen}
+          handleCartClose={() => {
+            setIsCartOpen(false);
+          }}
+          customerAccessToken={""}
+        />
+        <div
+          className="w-6 h-6 my-auto mr-2 overflow-hidden hamburger-cont"
+          onClick={() => setIsMenuOpen((prevVal) => !prevVal)}
+        >
+          <div className={`hamburger ${isMenuOpen ? "active" : null}`}></div>
+        </div>
       </div>
     </nav>
   );

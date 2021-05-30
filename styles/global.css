@@ -472,3 +472,15 @@ nav .menu-item {
 .nav-menu-item {
   @apply text-center font-medium p-2;
 }
+
+@media only screen and (min-width: 600px) {
+  .nav-menu {
+    @apply flex-row static max-h-full;
+  }
+  .nav-menu-item {
+    @apply font-normal p-0 mx-2;
+  }
+  .hamburger-cont {
+    @apply hidden;
+  }
+}
