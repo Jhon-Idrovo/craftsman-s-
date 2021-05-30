@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import Head from "next/head";
 
 import "../styles/global.css";
-import NavBar from "../components/NavBar";
+import NavBarV2 from "../components/NavBarV2";
 import Footer from "../components/Footer";
 
 import { ApolloProvider } from "@apollo/client/react";
@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
           />
         </Head>
         <Context.Provider value={memoizedValue}>
-          <NavBar />
+          <NavBarV2 />
           <Component {...pageProps} />
         </Context.Provider>
         <Footer />
