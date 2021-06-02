@@ -17,7 +17,7 @@ function CarouselWithProducts({ products }) {
       <Carousel
         slides={products}
         slideMappingFn={slideMappingFn}
-        slideWidth={300}
+        slideWidth={200}
       />
     </div>
   );
