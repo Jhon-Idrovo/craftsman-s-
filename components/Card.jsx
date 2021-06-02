@@ -5,12 +5,12 @@ function Card({ imgSrc, title, price, handle }) {
   return (
     <div
       onClick={() => router.push(`/shop/n/n/${handle}`)}
-      className=" m-4 flex flex-col items-center justify-between bg-base "
+      className="overflow-hidden m-4 flex flex-col items-center justify-between bg-base "
     >
       <img src={imgSrc} alt={title} className="carrousel-img" />
       <div>
-        <h3 className="text-lg">{title}</h3>
-        <p className="text-sm">${price}</p>
+        <h3 className="text-lg px-2">{title}</h3>
+        <p className="text-sm px-2">${price}</p>
       </div>
     </div>
   );

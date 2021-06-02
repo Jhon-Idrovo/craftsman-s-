@@ -5,13 +5,6 @@ import CarouselWithProducts from "../components/CarouselWithProducts";
 import { useProducts } from "../shopify/hooks";
 
 export default function Home() {
-  const images = [
-    {
-      url: "https://assets.website-files.com/5faabe4b6f6b4331a5f27952/603fa29994675e4e5487a831_Hero_Original-min-p-500.png",
-      desc: "description",
-    },
-  ];
-
   const { isLoadingProducts, products } = useProducts("Stands");
 
   return (
@@ -24,7 +17,7 @@ export default function Home() {
           <div className="img-section-1 flex flex-col items-center justify-center text-white">
             <h1 className="landing-title">The Desk System You Deserve </h1>
             <p className="mt-4">Available in Walnut or Maple</p>
-            <Link href="/">
+            <Link href="/shop">
               <a className="CTA mt-4">SEE MORE</a>
             </Link>
           </div>
@@ -33,7 +26,7 @@ export default function Home() {
             <p className="mt-4 text-center">
               Build your dream workspace, so you can get your best work done
             </p>
-            <Link href="/">
+            <Link href="/shop">
               <a className="CTA mt-4">GET STARTED</a>
             </Link>
           </div>
@@ -45,7 +38,11 @@ export default function Home() {
               alt="Desk Pads"
             />
             <h4>Desk Pads</h4>
-            <p className="CTA mt-2 table mx-auto">SEE MORE</p>
+            <Link href={`/shop/${encodeURIComponent("Desk/ Pads")}`}>
+              <a>
+                <p className="CTA mt-2 table mx-auto">SEE MORE</p>
+              </a>
+            </Link>
           </div>
           <div className="">
             <img
@@ -53,7 +50,12 @@ export default function Home() {
               alt=""
             />
             <h4>Laptop Stands</h4>
-            <p className="CTA mt-2 table mx-auto">SEE MORE</p>
+
+            <Link href="/shop/Stands">
+              <a>
+                <p className="CTA mt-2 table mx-auto">SEE MORE</p>
+              </a>
+            </Link>
           </div>
         </section>
         <section className="mt-12 mb-4">
@@ -72,7 +74,10 @@ export default function Home() {
             <p className="mt-4 text-center">
               Now working from home can be a luxury experience
             </p>
-            <button className="CTA mt-4 ">SEE MORE</button>
+
+            <Link href="/shop">
+              <a className="CTA mt-4 ">SEE MORE</a>
+            </Link>
           </div>
         </section>
         <section className="flex flex-col justify-center items-center mt-12">
@@ -98,7 +103,9 @@ export default function Home() {
             team that loves working together is the magic that makes it all
             happen.
           </p>
-          <button className="CTA mt-4">KNOW OUR STORY</button>
+          <Link href="/about">
+            <a className="CTA mt-4">KNOW US</a>
+          </Link>
         </section>
       </main>
     </>

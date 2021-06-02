@@ -12,7 +12,7 @@ const footerList = [
 ];
 function Footer() {
   return (
-    <footer className="footer-container">
+    <footer id="newsletter" className="footer-container">
       <span className="p-2">
         <ul className="">
           {footerList.map((el) => (

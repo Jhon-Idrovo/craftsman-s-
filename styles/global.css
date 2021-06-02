@@ -153,7 +153,8 @@ nav .menu-item {
   @apply mt-12 grid bg-primary;
 }
 
-.landing-title {
+.landing-title,
+.title-base {
   @apply text-3xl font-semibold text-center;
 }
 

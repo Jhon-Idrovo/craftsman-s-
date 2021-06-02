@@ -71,7 +71,10 @@ function NavBar() {
             </Link>
           </li>
           <li className="nav-menu-item">
-            <Link href="/newsletter">
+            <Link
+              href="
+            #newsletter"
+            >
               <a className="">Newsletter </a>
             </Link>
           </li>
