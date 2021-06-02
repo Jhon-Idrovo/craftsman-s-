@@ -18,6 +18,7 @@ function CarouselWithProducts({ products }) {
         slides={products}
         slideMappingFn={slideMappingFn}
         slideWidth={200}
+        start={Math.floor((products.length - 1) / 2)}
       />
     </div>
   );

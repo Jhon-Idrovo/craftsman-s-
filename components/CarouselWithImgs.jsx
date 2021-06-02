@@ -10,6 +10,7 @@ function CarouselWithImgs({ imgs, handleClick }) {
         slides={imgs}
         slideMappingFn={slideMappingFn}
         slideWidth={100}
+        start={0}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
-function Carousel({ slides, slideMappingFn, slideWidth }) {
-  const [slide, setSlide] = useState(Math.floor(slides.length / 2));
+function Carousel({ slides, slideMappingFn, slideWidth, start }) {
+  const [slide, setSlide] = useState(start);
   const [imagesPerSlide, setimagesPerSlide] = useState();
 
   const parentEl = useRef(null);
