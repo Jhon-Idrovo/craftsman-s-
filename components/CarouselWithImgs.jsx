@@ -2,7 +2,14 @@ import Carousel from "./Carousel";
 
 function CarouselWithImgs({ imgs, handleClick }) {
   const slideMappingFn = (imgSrc) => {
-    return <img src={imgSrc} alt="" onClick={() => handleClick(imgSrc)} />;
+    return (
+      <img
+        className="m-auto table"
+        src={imgSrc}
+        alt=""
+        onClick={() => handleClick(imgSrc)}
+      />
+    );
   };
   return (
     <div>
