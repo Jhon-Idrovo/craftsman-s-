@@ -401,3 +401,20 @@ nav .menu-item {
   opacity: 1;
   cursor: pointer;
 }
+
+/* ABOUT PAGE */
+.about p {
+  @apply bg-primary p-2;
+}
+
+@media only screen and (min-width: 700px) {
+  .about {
+    @apply grid grid-cols-2;
+  }
+  .about h1 {
+    @apply m-auto;
+  }
+  .about p {
+    @apply ml-0;
+  }
+}

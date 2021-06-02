@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function About() {
   return (
-    <div>
+    <div className="about">
       <h1 className="title-base mb-4">Our Team</h1>
       <Image
         src="/images/team.jpg"
