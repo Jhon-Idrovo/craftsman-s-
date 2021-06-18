@@ -4,13 +4,15 @@ function About() {
   return (
     <div className="about">
       <h1 className="title-base mb-4">Our Team</h1>
-      <Image
-        src="/images/team.jpg"
-        alt="Our team members"
-        layout="responsive"
-        width={300}
-        height={200}
-      />
+      <div className="m-4">
+        <Image
+          src="/images/team.jpg"
+          alt="Our team members"
+          layout="responsive"
+          width={300}
+          height={200}
+        />
+      </div>
       <h1 className="title-base mt-12">What we are</h1>
       <p className="m-4">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio tempora
