@@ -12,6 +12,7 @@ import {
   checkoutLineItemsRemove,
   checkoutCustomerAssociate,
 } from "../shopify/checkout";
+import Loading from "../components/Loading";
 
 // import Product from './components/Product';
 // import CustomerAuthWithMutation from './components/CustomerAuth';
@@ -140,6 +141,7 @@ function Tests() {
         handleCartClose={handleCartClose}
         customerAccessToken={""}
       />
+      <Loading>ljljlj</Loading>
     </div>
   );
 }

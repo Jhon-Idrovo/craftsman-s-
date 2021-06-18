@@ -37,6 +37,21 @@ body {
   border-radius: 5px;
 }
 
+/* LOADING */
+.loading-spinner {
+  @apply rounded-full border-primary border-4 w-12 h-12;
+  border-left-color: transparent;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* NAV BAR V2 */
 
 nav .menu-item {
@@ -201,7 +216,9 @@ nav .menu-item {
 .product-detail-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  @apply mt-4;
+  @apply mt-4 mx-auto;
+  /* To avoid making 3 colums */
+  max-width: 899px;
 }
 
 /* CART

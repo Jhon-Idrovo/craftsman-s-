@@ -31,13 +31,13 @@ function Carousel({ slides, slideMappingFn, slideWidth, start }) {
               .map(slideMappingFn)
           : null}
         <i
-          className={`fas fa-angle-left absolute top-1/2 bottom-1/2 left-2 text-4xl ${
+          className={`fas fa-angle-left absolute top-1/2 -translate-y-1/2 transform left-2 text-4xl ${
             slide == 0 ? "hidden" : null
           }`}
           onClick={() => setSlide((prevValue) => prevValue - 1)}
         ></i>
         <i
-          className={`fas fa-angle-right absolute top-1/2 bottom-1/2 right-2 text-4xl ${
+          className={`fas fa-angle-right absolute top-1/2 -translate-y-1/2 transform right-2 text-4xl ${
             slide + imagesPerSlide >= slides.length ? "hidden" : null
           }`}
           onClick={() => setSlide((prevValue) => prevValue + 1)}

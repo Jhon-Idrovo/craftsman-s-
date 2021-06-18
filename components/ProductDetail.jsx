@@ -1,6 +1,7 @@
 import { useProduct } from "../shopify/hooks";
 import ProductShowcaseCarousel from "../components/ProductShowcaseCarousel";
 import { useState, useRef } from "react";
+import Loading from "../components/Loading";
 
 function ProductDetail({ productHandle, addVariantToCart }) {
   //format = {description:'', title:'',
@@ -22,15 +23,20 @@ function ProductDetail({ productHandle, addVariantToCart }) {
     }
   };
 
-  if (isLoadingProduct) return <div>is loading</div>;
+  if (isLoadingProduct)
+    return (
+      <Loading>
+        <p>Loading Product</p>
+      </Loading>
+    );
   return (
     <div className="product-detail-container">
       <ProductShowcaseCarousel imgs={product.images} />
       <div className="m-4">
-        <h3 className="font-semibold text-xl">{product.title}</h3>
+        <h3 className="font-semibold text-xl mb-4">{product.title}</h3>
 
         <p>{product.description}</p>
-        <div>
+        <div className="my-8">
           <button
             className="w-min border-2 px-1 "
             onClick={() => setQuantity((prevQ) => prevQ + 1)}
@@ -61,7 +67,9 @@ function ProductDetail({ productHandle, addVariantToCart }) {
           </button>
         </div>
         <p>Share it:</p>
-        <p onClick={linkToClipboard}>Copy link</p>
+        <button className="CTA" onClick={linkToClipboard}>
+          Copy link
+        </button>
         <textarea id="" cols="30" rows="10" ref={urlEl} hidden>
           {`http://localhost:3000/shop/n/n/${productHandle}`}
         </textarea>
