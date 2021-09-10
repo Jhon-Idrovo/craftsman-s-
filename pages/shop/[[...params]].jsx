@@ -122,6 +122,7 @@ function Store() {
                     }`}
                     onClick={() => {
                       setMenuSection(key);
+                      setParentCollection(key);
                       setChildCollection(undefined);
                     }}
                   >
