@@ -16,7 +16,9 @@ import {
 
 function Store() {
   const router = useRouter();
+  // for the filter
   const [menuSection, setMenuSection] = useState("Stands");
+  // for querying
   const [parentCollection, setParentCollection] = useState();
   const [childCollection, setChildCollection] = useState();
   const [productHandle, setProductHandle] = useState();
@@ -84,7 +86,8 @@ function Store() {
     // create your own custom hook???
 
     lineItemAddMutation({ variables }).then((res) => {
-      //setCartOpen(true);
+      // to signal the customer that the item was added
+      setCartOpen(true);
     });
   };
 
@@ -129,6 +132,19 @@ function Store() {
                     </li>
                   );
                 })}
+            <li
+              className={`filter-item ${
+                "All" === menuSection ? "active" : null
+              }`}
+              onClick={() =>
+                setMenuSection("All") & setChildCollection(undefined)
+              }
+            >
+              All
+              {"All" === menuSection ? (
+                <i className="fas fa-arrow-circle-right mr-1 filter-item-icon"></i>
+              ) : null}
+            </li>{" "}
           </ul>
 
           <ul className="filter-options">
@@ -153,6 +169,7 @@ function Store() {
             <li
               className="filter-item"
               onClick={() =>
+                // All the producst from the category
                 setParentCollection(menuSection) & setProductHandle(undefined)
               }
             >
