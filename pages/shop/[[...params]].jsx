@@ -17,7 +17,7 @@ import {
 function Store() {
   const router = useRouter();
   // for the filter
-  const [menuSection, setMenuSection] = useState("Stands");
+  const [menuSection, setMenuSection] = useState("All");
   // for querying
   const [parentCollection, setParentCollection] = useState();
   const [childCollection, setChildCollection] = useState();

@@ -40,7 +40,12 @@ export function useCollections() {
     collections: parsedCollections(),
   };
 }
-
+/**
+ * Using only shopify collections retrieves a list of products corresponding to that collection.
+ * @param {string} parentCollection
+ * @param {string} childCollection
+ * @returns
+ */
 export function useProducts(parentCollection, childCollection) {
   console.log(parentCollection, childCollection);
   const filter = childCollection
