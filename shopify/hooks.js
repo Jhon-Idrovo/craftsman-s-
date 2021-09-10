@@ -14,13 +14,14 @@ export function useCollections() {
   `;
   const {
     loading: isLoadingCollections,
+
     error: errorCollections,
     data,
   } = useQuery(mainCollections);
 
   const parsedCollections = () => {
-    if (isLoadingCollections | errorCollections) return {};
     console.log(data);
+    if (!data) return {};
     let collections = {};
     data.collections.edges.map(({ node }) => {
       const [prefix, title] = node.title.split("-");
