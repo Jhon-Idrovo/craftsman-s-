@@ -121,9 +121,11 @@ function Store() {
                       className={`filter-item ${
                         key === menuSection ? "active" : null
                       }`}
-                      onClick={() =>
-                        setMenuSection(key) & setChildCollection(undefined)
-                      }
+                      onClick={() => {
+                        setMenuSection(key);
+                        setParentCollection(key);
+                        setChildCollection(undefined);
+                      }}
                     >
                       {key}{" "}
                       {key === menuSection ? (
