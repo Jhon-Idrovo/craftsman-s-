@@ -19,7 +19,7 @@ export function useCollections() {
   } = useQuery(mainCollections);
 
   const parsedCollections = () => {
-    if (isLoadingCollections | errorCollections) return {};
+    if (isLoadingCollections || errorCollections) return {};
     console.log(data);
     let collections = {};
     data.collections.edges.map(({ node }) => {
