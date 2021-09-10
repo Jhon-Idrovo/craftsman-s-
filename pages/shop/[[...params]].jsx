@@ -132,19 +132,6 @@ function Store() {
                     </li>
                   );
                 })}
-            <li
-              className={`filter-item ${
-                "All" === menuSection ? "active" : null
-              }`}
-              onClick={() =>
-                setMenuSection("All") & setChildCollection(undefined)
-              }
-            >
-              All
-              {"All" === menuSection ? (
-                <i className="fas fa-arrow-circle-right mr-1 filter-item-icon"></i>
-              ) : null}
-            </li>{" "}
           </ul>
 
           <ul className="filter-options">
@@ -168,10 +155,12 @@ function Store() {
               : null}
             <li
               className="filter-item"
-              onClick={() =>
+              onClick={() => {
                 // All the producst from the category
-                setParentCollection(menuSection) & setProductHandle(undefined)
-              }
+                setParentCollection(menuSection);
+                setChildCollection(undefined);
+                setProductHandle(undefined);
+              }}
             >
               All
             </li>
