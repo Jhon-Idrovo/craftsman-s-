@@ -153,17 +153,19 @@ function Store() {
                   );
                 })
               : null}
-            <li
-              className="filter-item"
-              onClick={() => {
-                // All the producst from the category
-                setParentCollection(menuSection);
-                setChildCollection(undefined);
-                setProductHandle(undefined);
-              }}
-            >
-              All
-            </li>
+            {menuSection !== "All" && (
+              <li
+                className="filter-item"
+                onClick={() => {
+                  // All the producst from the category
+                  setParentCollection(menuSection);
+                  setChildCollection(undefined);
+                  setProductHandle(undefined);
+                }}
+              >
+                All
+              </li>
+            )}
           </ul>
         </div>
       </section>
