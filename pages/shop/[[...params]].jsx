@@ -113,56 +113,61 @@ function Store() {
 
         <div className={`filter-container  ${isFilterOpen ? "open" : null}`}>
           <ul className="filter-list">
-            {collections &&
-              Object.keys(collections).map((key) => {
-                return (
-                  <li
-                    className={`filter-item ${
-                      key === menuSection ? "active" : null
-                    }`}
-                    onClick={() => {
-                      setMenuSection(key);
-                      setParentCollection(key);
-                      setChildCollection(undefined);
-                    }}
-                  >
-                    {key}{" "}
-                    {key === menuSection ? (
-                      <i className="fas fa-arrow-circle-right mr-1 filter-item-icon"></i>
-                    ) : null}
-                  </li>
-                );
-              })}
+            {isLoadingCollections
+              ? null
+              : Object.keys(collections).map((key) => {
+                  return (
+                    <li
+                      className={`filter-item ${
+                        key === menuSection ? "active" : null
+                      }`}
+                      onClick={() => {
+                        setMenuSection(key);
+                        setParentCollection(key);
+                        setChildCollection(undefined);
+                      }}
+                    >
+                      {key}{" "}
+                      {key === menuSection ? (
+                        <i className="fas fa-arrow-circle-right mr-1 filter-item-icon"></i>
+                      ) : null}
+                    </li>
+                  );
+                })}
           </ul>
 
           <ul className="filter-options">
-            {collections &&
-              menuSection &&
-              collections[menuSection].map((option) => {
-                return (
-                  <li
-                    className="filter-item"
-                    onClick={() => {
-                      setParentCollection(menuSection);
-                      setChildCollection(option);
-                      setProductHandle(undefined);
-                    }}
-                  >
-                    {option}
-                  </li>
-                );
-              })}
-            <li
-              className="filter-item"
-              onClick={() => {
-                // All the producst from the category
-                setParentCollection(menuSection);
-                setChildCollection(undefined);
-                setProductHandle(undefined);
-              }}
-            >
-              All
-            </li>
+            {isLoadingCollections
+              ? null
+              : menuSection
+              ? collections[menuSection].map((option) => {
+                  return (
+                    <li
+                      className="filter-item"
+                      onClick={() => {
+                        setParentCollection(menuSection);
+                        setChildCollection(option);
+                        setProductHandle(undefined);
+                      }}
+                    >
+                      {option}
+                    </li>
+                  );
+                })
+              : null}
+            {menuSection !== "All" && (
+              <li
+                className="filter-item"
+                onClick={() => {
+                  // All the producst from the category
+                  setParentCollection(menuSection);
+                  setChildCollection(undefined);
+                  setProductHandle(undefined);
+                }}
+              >
+                All
+              </li>
+            )}
           </ul>
         </div>
       </section>
