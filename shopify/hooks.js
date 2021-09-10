@@ -20,6 +20,7 @@ export function useCollections() {
   } = useQuery(mainCollections);
 
   const parsedCollections = () => {
+    if (isLoadingCollections || errorCollections) return {};
     console.log(data);
     if (!data) return {};
     let collections = {};
